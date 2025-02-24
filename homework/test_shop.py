@@ -93,7 +93,7 @@ class TestCart:
         cart.add_product(product1, 700)
 
         # Покупка должна вызвать ValueError из-за недостатка товара
-        with pytest.raises(ValueError, match=f"Товара '{product1.name}' недостаточно на складе!")
+        with pytest.raises(ValueError, match=f"Товара '{product1.name}' недостаточно на складе!"):
             cart.buy()
 
 
