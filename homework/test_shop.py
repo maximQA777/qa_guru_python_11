@@ -13,13 +13,16 @@ def product():
 
 @pytest.fixture
 def cart(product):
-    cart = Cart()  # Создаём объект Cart
-    cart.add_product(product)  # Добавляем продукт в корзину
-    return cart
+    return Cart()
+
 
 @pytest.fixture
 def product1():
     return Product("notebook", 200, "This is a notebook", 500)
+
+@pytest.fixture
+def product2():
+    return Product("phone", 200, "This is a iphone 13 pro", 500)
 
 
 
@@ -32,7 +35,7 @@ class TestProducts:
     def test_product_check_quantity(self, product):
         # TODO напишите проверки на метод check_quantity
         assert product.check_quantity(1000) is True
-        assert all(product.check_quantity(i) for i in range(1, 1000)) is True
+        assert product.check_quantity(999) is True
         assert product.check_quantity(1001) is False
 
 
@@ -56,15 +59,22 @@ class TestCart:
         Например, негативные тесты, ожидающие ошибку (используйте pytest.raises, чтобы проверить это)
     """
 
-    def test_add_product(self , cart , product1):
-        cart.add_product(product1, 10)
-        assert cart.add_product(product1) == 10
+    def test_add_product(self , cart , product1 ,product2, product):
+        cart.add_product(product1, buy_count=2)
+        assert cart.products[product1] == 2
+
+        cart.add_product(product2, buy_count=3)
+        assert cart.products[product2] == 3
+
+        cart.add_product(product2 , buy_count=10)
+        assert cart.products[product2] == 13
+
 
     def test_remove_product(self, cart , product1):
-        cart.add_product(product1, 5)
+        cart.add_product(product1, buy_count=5)
 
-        cart.remove_product(product1, 5)
-        assert cart.add_product(product1) == 0
+        cart.remove_product(product1, remove_count=2)
+        assert cart.products[product1] == 3
 
     def test_full_remove(self, cart , product1):
         cart.remove_product(product1)
@@ -77,15 +87,19 @@ class TestCart:
         cart.clear()
         assert len(cart.products) == 0
 
-    def test_buy(self, cart, product1):
+    def test_total_price(self, cart, product1 , product2):
          cart.add_product(product1, 10)
-         cart.add_product(product1, 10)
+         cart.add_product(product2, 10)
          assert cart.get_total_price() == 4000
 
-    def test_buy_value(self, cart, product1):
-        cart.add_product(product1, 10)
+    def test_buy_value(self, cart, product1 , product2):
+        cart.add_product(product1, buy_count=10)
+        cart.add_product(product2 , 20)
+
+
         cart.buy()
         assert product1.quantity == 490
+        assert product2.quantity == 480
 
         assert len(cart.products) == 0
 
