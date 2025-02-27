@@ -66,7 +66,7 @@ class Cart:
             # По-умолчанию корзина пустая
             self.products = {}
 
-        def add_product(self, product: Product, buy_count=0):
+        def add_product(self, product: Product, buy_count=1):
             """
             Метод добавления продукта в корзину.
             Если продукт уже есть в корзине, то увеличиваем количество
