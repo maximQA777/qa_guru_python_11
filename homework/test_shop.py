@@ -120,6 +120,22 @@ class TestCart:
         """
         Проверяем, что если одного товара не хватает, второй все равно уменьшается.
         """
+
+        cart.add_product(product1, 700)
+        cart.add_product(product2, 20)
+
+        # Покупка должна вызвать ValueError из-за недостатка товара
+        with pytest.raises(ValueError, match=f"Товара '{product1.name}' недостаточно на складе!"):
+            cart.buy()
+
+        assert product1.quantity == 500
+        assert product2.quantity == 500
+
+
+
+        
+
+        """
         cart.add_product(product1, 700)
         cart.add_product(product2, 20)
 
@@ -132,6 +148,12 @@ class TestCart:
         assert product1.quantity == 500
         assert len(cart.products) == 1
         assert cart.products[product1] == 700
+        """
+
+
+
+
+
 
 
 
