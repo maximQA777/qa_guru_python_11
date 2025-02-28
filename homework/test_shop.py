@@ -76,6 +76,16 @@ class TestCart:
         cart.remove_product(product1, remove_count=2)
         assert cart.products[product1] == 3
 
+        cart.remove_product(product1, remove_count=3)
+        assert product1 not in cart.products
+
+        cart.add_product(product1, buy_count=4)
+        cart.remove_product(product1, remove_count=10)
+        assert product1 not in cart.products
+
+
+
+
     def test_full_remove(self, cart , product1):
         cart.remove_product(product1)
         assert product1 not in cart.products
@@ -88,27 +98,48 @@ class TestCart:
         assert len(cart.products) == 0
 
     def test_total_price(self, cart, product1 , product2):
-         cart.add_product(product1, 10)
-         cart.add_product(product2, 10)
-         assert cart.get_total_price() == 4000
+         cart.add_product(product1, 12)
+         cart.add_product(product2, 15)
+         assert cart.get_total_price() == 5400
 
     def test_buy_value(self, cart, product1 , product2):
-        cart.add_product(product1, buy_count=10)
+
+        cart.add_product(product1, buy_count=11)
         cart.add_product(product2 , 20)
 
 
         cart.buy()
-        assert product1.quantity == 490
+        assert product1.quantity == 489
         assert product2.quantity == 480
 
         assert len(cart.products) == 0
 
-    def test_buy_with_insufficient_stock(self, cart, product1):
+    def test_buy_with_insufficient_stock(self, cart, product1, product2):
+        """
+        Проверяем, что если одного товара не хватает, второй все равно уменьшается.
+        """
         cart.add_product(product1, 700)
+        cart.add_product(product2, 20)
 
-        # Покупка должна вызвать ValueError из-за недостатка товара
+
         with pytest.raises(ValueError, match=f"Товара '{product1.name}' недостаточно на складе!"):
             cart.buy()
+
+
+        assert product2.quantity == 480
+        assert product1.quantity == 500
+        assert len(cart.products) == 1
+        assert cart.products[product1] == 700
+
+
+
+
+
+
+
+
+
+
 
 
 
