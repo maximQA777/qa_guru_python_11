@@ -95,6 +95,8 @@ class TestCart:
 
         # Очищаем корзину
         cart.clear()
+        with pytest.raises(ValueError, match="Корзина пуста, нечего покупать!"):
+            cart.buy()
         assert len(cart.products) == 0
 
     def test_total_price(self, cart, product1 , product2):
@@ -130,6 +132,9 @@ class TestCart:
         assert product1.quantity == 500
         assert len(cart.products) == 1
         assert cart.products[product1] == 700
+
+
+
 
 
 
