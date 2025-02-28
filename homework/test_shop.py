@@ -76,6 +76,8 @@ class TestCart:
         cart.remove_product(product1, remove_count=2)
         assert cart.products[product1] == 3
 
+    def test_full_clear_product(self , cart , product1 ):
+        cart.add_product(product1 , 3)
         cart.remove_product(product1, remove_count=3)
         assert product1 not in cart.products
 
@@ -95,9 +97,12 @@ class TestCart:
 
         # Очищаем корзину
         cart.clear()
+        assert len(cart.products) == 0
+
+    def test_buy_value(self , cart ):
         with pytest.raises(ValueError, match="Корзина пуста, нечего покупать!"):
             cart.buy()
-        assert len(cart.products) == 0
+
 
     def test_total_price(self, cart, product1 , product2):
          cart.add_product(product1, 12)
@@ -133,22 +138,9 @@ class TestCart:
 
 
 
-        
-
-        """
-        cart.add_product(product1, 700)
-        cart.add_product(product2, 20)
 
 
-        with pytest.raises(ValueError, match=f"Товара '{product1.name}' недостаточно на складе!"):
-            cart.buy()
 
-
-        assert product2.quantity == 480
-        assert product1.quantity == 500
-        assert len(cart.products) == 1
-        assert cart.products[product1] == 700
-        """
 
 
 

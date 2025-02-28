@@ -99,11 +99,7 @@ class Cart:
                 total_price += product.price * quantity
             return total_price
 
-        def buy(self):
-            """
-            Метод покупки.
-            Если товара не хватает — уменьшаем доступные товары и только потом выбрасываем исключение.
-            """
+
 
         def buy(self):
                 """
@@ -111,47 +107,20 @@ class Cart:
                 Если какого-то товара не хватает — уменьшаем доступные товары и только потом выбрасываем исключение.
                 """
 
-
-
-
-                """
-                                if not self.products:
+                if not self.products:
                     raise ValueError("Корзина пуста, нечего покупать!")
 
-                not_enough = []  # Список товаров с нехваткой
 
-                # Проверяем все товары
                 for product, quantity in self.products.items():
                     if product.quantity < quantity:
-                        not_enough.append(product)
-                    else:
-                        product.quantity -= quantity
+                        raise ValueError(f"Товара '{product.name}' недостаточно на складе!")
 
-                # Удаляем товары, которых хватило
-                for product in list(self.products.keys()):
-                    if product not in not_enough:
-                        self.products.pop(product)
-
-                # Если есть нехватка — выбрасываем исключение
-                if not_enough:
-                    raise ValueError(f"Товара '{not_enough[0].name}' недостаточно на складе!")
-                    
-                    
-                    
-                    
-                    Если будет 2 товара в корзине 1 будет недостатчно на скалде , то второй товар продаться , а 1 товар отсатеться в корзине + напишиться ошибка что такого товара недостачтоно
-                """
-
-
-
-                if not self.products:
-                        raise ValueError(f"Корзина пуста, нечего покупать!")
-                for product, quantity in self.products.items():
-                        if product.quantity < quantity:
-                            raise ValueError(f"Товара '{product.name}' недостаточно на складе!")
 
                 for product, quantity in self.products.items():
-                        product.quantity -= quantity
+                    product.buy(quantity)
+
+
+                self.products.clear()
 
 
 
