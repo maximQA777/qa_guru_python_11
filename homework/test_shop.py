@@ -18,7 +18,7 @@ def cart(product):
 
 @pytest.fixture
 def product1():
-    return Product("notebook", 200, "This is a notebook", 500)
+    return Product("notebook", 213, "This is a notebook", 500)
 
 @pytest.fixture
 def product2():
@@ -102,7 +102,7 @@ class TestCart:
     def test_total_price(self, cart, product1 , product2):
          cart.add_product(product1, 12)
          cart.add_product(product2, 15)
-         assert cart.get_total_price() == 5400
+         assert cart.get_total_price() == 5556
 
     def test_buy_value(self, cart, product1 , product2):
 
